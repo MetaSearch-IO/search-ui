@@ -32,13 +32,7 @@
   "dependencies": {
     "@metasearch-io/search-ui": "^1.18.1"
   },
-  "peerDependencies": {
-    "react": ">= 16.8.0 <= 18",
-    "react-dom": ">= 16.8.0 <= 18"
-  },
   "devDependencies": {
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
     "rimraf": "^2.6.3",
     "typescript": "^4.5.4"
   }

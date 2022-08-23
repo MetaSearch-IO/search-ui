@@ -24,6 +24,7 @@ export default function setFilter(
 
   this._updateSearchResults({
     current: 1,
+    currentTab: "all",
     filters: [
       ...filters,
       {

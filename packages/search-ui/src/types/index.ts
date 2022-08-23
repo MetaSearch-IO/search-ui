@@ -67,6 +67,7 @@ export type SearchState = RequestState &
     isLoading: boolean;
   } & {
     custom?: Custom;
+    currentTab?: string;
   };
 
 export type AutocompleteResponseState = {

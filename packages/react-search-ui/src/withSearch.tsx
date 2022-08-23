@@ -7,14 +7,16 @@ import type {
   SearchDriverActions
 } from "@metasearch-io/search-ui";
 
-export type SearchContextState = SearchState & SearchDriverActions;
+export type SearchContextState = SearchState &
+  SearchDriverActions & { driver: SearchDriver };
 
 function buildContextForProps(context: {
   driver: SearchDriver;
 }): SearchContextState {
   return {
     ...context.driver.getState(),
-    ...context.driver.getActions()
+    ...context.driver.getActions(),
+    driver: context.driver
   };
 }
 

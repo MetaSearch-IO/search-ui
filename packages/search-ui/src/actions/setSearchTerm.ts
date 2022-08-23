@@ -46,6 +46,7 @@ export default function setSearchTerm(
       this._updateSearchResults,
       {
         current: 1,
+        currentTab: "all",
         ...(shouldClearFilters && { filters: [] })
       }
     );

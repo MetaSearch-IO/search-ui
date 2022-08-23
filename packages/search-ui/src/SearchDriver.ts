@@ -32,7 +32,8 @@ function filterSearchParameters({
   sortDirection,
   sortField,
   sortList,
-  custom
+  custom,
+  currentTab
 }: SearchState) {
   return {
     current,
@@ -42,7 +43,8 @@ function filterSearchParameters({
     sortDirection,
     sortField,
     sortList,
-    custom
+    custom,
+    currentTab
   };
 }
 
@@ -72,7 +74,8 @@ export const DEFAULT_STATE: SearchState = {
   pagingStart: 0,
   pagingEnd: 0,
   wasSearched: false,
-  rawResponse: {}
+  rawResponse: {},
+  currentTab: "all"
 };
 
 function removeConditionalFacets(
@@ -345,7 +348,8 @@ class SearchDriver {
       searchTerm,
       sortDirection,
       sortField,
-      sortList
+      sortList,
+      currentTab
     } = {
       ...this.state,
       ...searchParameters
@@ -367,7 +371,8 @@ class SearchDriver {
       searchTerm,
       sortDirection,
       sortField,
-      sortList
+      sortList,
+      currentTab
     });
 
     this._makeSearchRequest({

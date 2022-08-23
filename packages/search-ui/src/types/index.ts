@@ -56,6 +56,8 @@ export type RequestState = {
   sortField?: string; // Deprecated
   sortList?: SortOption[]; // Maybe deprecated? Not in docs
   sort?: SortOption[];
+  custom?: Custom;
+  currentTab?: string;
 };
 
 export type SearchState = RequestState &
@@ -65,9 +67,6 @@ export type SearchState = RequestState &
     // as the result of changing input state.
     error: string;
     isLoading: boolean;
-  } & {
-    custom?: Custom;
-    currentTab?: string;
   };
 
 export type AutocompleteResponseState = {

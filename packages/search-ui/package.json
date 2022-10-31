@@ -45,5 +45,6 @@
   },
   "peerDependencies": {
     "next": "^12.0.0"
-  }
+  },
+  "gitHead": "3369d858880aacefe43540816cd1dd229a8d5330"
 }

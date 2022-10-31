@@ -198,7 +198,10 @@ export default class URLManager {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
       if (`/?${this.lastPushSearchString}` === e) return;
-
+      // TODO current search page is /, maybe it will change
+      if (!/\/\?.*/.test(e)) {
+        return;
+      }
       // Once we've decided to return based on lastPushSearchString, reset
       // it so that we don't break back / forward button.
       this.lastPushSearchString = "";

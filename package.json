@@ -63,5 +63,10 @@
     "*.{js,jsx,ts,tsx}": [
       "yarn lint-fix"
     ]
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.186",
+    "lodash": "^4.17.21",
+    "next": "^13.0.0"
   }
 }

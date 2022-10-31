@@ -5,10 +5,11 @@ import DebounceManager from "./DebounceManager";
 
 import * as actions from "./actions";
 import Events from "./Events";
-import { mergeFilters } from "./helpers";
+import { isSameRequestParams, mergeFilters } from "./helpers";
 import {
   AutocompleteResponseState,
   AutocompleteSearchQuery,
+  Custom,
   INVALID_CREDENTIALS,
   QueryConfig,
   ResponseState
@@ -231,12 +232,24 @@ class SearchDriver {
     if (trackUrlState) {
       this.URLManager = new URLManager();
       urlState = this.URLManager.getStateFromURL();
-      this.URLManager.onURLStateChange((urlState) => {
-        this._updateSearchResults(
-          { ...DEFAULT_STATE, ...urlState },
-          { skipPushToUrl: true }
-        );
-      });
+      this.URLManager.onURLStateChange(
+        (urlState: RequestState & { custom: Custom }) => {
+          if (!isSameRequestParams(urlState, this.state)) {
+            this._updateSearchResults(
+              { ...DEFAULT_STATE, ...urlState },
+              { skipPushToUrl: true }
+            );
+          } else {
+            /**
+             * user maybe use history.back, so when request params is same,
+             * don't request, just use cache
+             * */
+            this._setState({
+              custom: urlState.custom
+            });
+          }
+        }
+      );
     } else {
       urlState = {};
     }

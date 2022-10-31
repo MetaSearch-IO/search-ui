@@ -5,7 +5,7 @@ import {
 } from "history";
 import queryString from "./queryString";
 import { Custom, Filter, RequestState, SortOption } from "./types";
-
+import { Router } from "next/router";
 type QueryParams = {
   filters?: Filter[];
   current?: number;
@@ -82,7 +82,7 @@ function paramsToState(queryParams: QueryParams): RequestState {
   }, {});
 }
 
-function stateToParams({
+export function stateToParams({
   searchTerm,
   current,
   filters,
@@ -168,12 +168,21 @@ export default class URLManager {
   ): void {
     const searchString = stateToQueryString(state as any);
     this.lastPushSearchString = searchString;
-    const navigationFunction = replaceUrl
-      ? this.history.replace
-      : this.history.push;
-    navigationFunction({
-      search: `?${searchString}`
-    });
+
+    const url = `/?${searchString}`;
+    const historyState = {
+      url,
+      as: url,
+      key: Math.random().toString(36).substr(2, 8),
+      options: {
+        shallow: true
+      },
+      __N: true
+    };
+    // TODO we should emit routeChangeStart to next/router ?
+    replaceUrl
+      ? global.history.replaceState(historyState, "", `/?${searchString}`)
+      : global.history.pushState(historyState, "", `/?${searchString}`);
   }
 
   /**
@@ -185,17 +194,18 @@ export default class URLManager {
    * @param {requestCallback} callback
    */
   onURLStateChange(callback: (state: RequestState) => void): void {
-    this.unlisten = this.history.listen((location) => {
+    const listener = (e) => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
-      if (`?${this.lastPushSearchString}` === location.search) return;
+      if (`/?${this.lastPushSearchString}` === e) return;
 
       // Once we've decided to return based on lastPushSearchString, reset
       // it so that we don't break back / forward button.
       this.lastPushSearchString = "";
-
-      callback(paramsToState(queryString.parse(location.search)));
-    });
+      callback(paramsToState(queryString.parse(e.slice(2))));
+    };
+    Router.events.on("routeChangeStart", listener);
+    this.unlisten = () => Router.events.off("routeChangeStart", listener);
   }
 
   tearDown(): void {

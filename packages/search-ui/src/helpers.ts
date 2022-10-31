@@ -1,5 +1,15 @@
 import deepEqual from "deep-equal";
-import { Filter, FilterType, FilterValue, FilterValueRange } from "./types";
+import { omit } from "lodash";
+import { stateToParams } from "./URLManager";
+import {
+  Custom,
+  Filter,
+  FilterType,
+  FilterValue,
+  FilterValueRange,
+  RequestState,
+  SearchState
+} from "./types";
 
 /**
  * Given a list of applied Filters, find FilterValues based on
@@ -133,4 +143,25 @@ export function isFilterValueRange(
   filterValue: FilterValue
 ): filterValue is FilterValueRange {
   return (filterValue as FilterValueRange).name !== undefined;
+}
+
+export function isSameRequestParams(
+  newState: RequestState & { custom?: Custom },
+  oldState: SearchState
+) {
+  if (
+    deepEqual(
+      stateToParams(
+        omit(newState, ["custom"]) as RequestState & { custom: Custom }
+      ),
+      stateToParams(
+        omit(oldState, ["custom"]) as unknown as RequestState & {
+          custom: Custom;
+        }
+      )
+    )
+  ) {
+    return true;
+  }
+  return false;
 }

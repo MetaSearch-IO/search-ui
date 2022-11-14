@@ -137,11 +137,12 @@ export default class URLManager {
   history: History;
   lastPushSearchString: string;
   unlisten?: () => void;
-
-  constructor() {
+  path: string;
+  constructor(path: string) {
     this.history =
       typeof window !== "undefined" ? createHistory() : createMemoryHistory();
     this.lastPushSearchString = "";
+    this.path = path;
   }
 
   /**
@@ -169,7 +170,7 @@ export default class URLManager {
     const searchString = stateToQueryString(state as any);
     this.lastPushSearchString = searchString;
 
-    const url = `/?${searchString}`;
+    const url = `${this.path}?${searchString}`;
     const historyState = {
       url,
       as: url,
@@ -181,8 +182,16 @@ export default class URLManager {
     };
     // TODO we should emit routeChangeStart to next/router ?
     replaceUrl
-      ? global.history.replaceState(historyState, "", `/?${searchString}`)
-      : global.history.pushState(historyState, "", `/?${searchString}`);
+      ? global.history.replaceState(
+          historyState,
+          "",
+          `${this.path}?${searchString}`
+        )
+      : global.history.pushState(
+          historyState,
+          "",
+          `${this.path}?${searchString}`
+        );
   }
 
   /**
@@ -197,9 +206,9 @@ export default class URLManager {
     const listener = (e) => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
-      if (`/?${this.lastPushSearchString}` === e) return;
-      // TODO current search page is /, maybe it will change
-      if (!/\/\?.*/.test(e)) {
+      if (`${this.path}?${this.lastPushSearchString}` === e) return;
+
+      if (e.indexOf(this.path + "?") !== 0) {
         return;
       }
       // Once we've decided to return based on lastPushSearchString, reset

@@ -134,6 +134,7 @@ export type SearchDriverOptions = {
   hasA11yNotifications?: boolean;
   a11yNotificationMessages?: Record<string, unknown>;
   alwaysSearchOnInitialLoad?: boolean;
+  urlPathName?: string;
 };
 
 export type SubscriptionHandler = (state: SearchState) => void;
@@ -183,7 +184,8 @@ class SearchDriver {
     urlPushDebounceLength = 500,
     hasA11yNotifications = false,
     a11yNotificationMessages = {},
-    alwaysSearchOnInitialLoad = false
+    alwaysSearchOnInitialLoad = false,
+    urlPathName = "/"
   }: SearchDriverOptions) {
     this.actions = Object.entries(actions).reduce(
       (acc, [actionName, action]) => {
@@ -230,7 +232,7 @@ class SearchDriver {
 
     let urlState;
     if (trackUrlState) {
-      this.URLManager = new URLManager();
+      this.URLManager = new URLManager(urlPathName);
       urlState = this.URLManager.getStateFromURL();
       this.URLManager.onURLStateChange(
         (urlState: RequestState & { custom: Custom }) => {

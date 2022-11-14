@@ -2,7 +2,7 @@ import { RequestState } from "../types";
 import URLManager from "../URLManager";
 
 function createManager() {
-  const manager = new URLManager();
+  const manager = new URLManager("/");
   return manager;
 }
 
@@ -56,7 +56,7 @@ const parameterStateWithRangeFilters: RequestState = {
 };
 
 it("can be initialized", () => {
-  const manager = new URLManager();
+  const manager = new URLManager("/");
   expect(manager).toBeInstanceOf(URLManager);
 });
 

@@ -207,18 +207,19 @@ export default class URLManager {
     const listener = (e) => {
       // If this URL is updated as a result of a pushState request, we don't
       // want to notify that the URL changed.
-      if (`${this.path}?${this.lastPushSearchString}` === e) return;
+      if (!e.state) return;
+      const asPath = e.state.as || "";
+      if (`${this.path}?${this.lastPushSearchString}` === asPath) return;
 
-      if (e.indexOf(this.path + "?") !== 0) {
+      if (asPath.indexOf(this.path + "?") !== 0) {
         return;
       }
-      // Once we've decided to return based on lastPushSearchString, reset
-      // it so that we don't break back / forward button.
       this.lastPushSearchString = "";
       callback(paramsToState(queryString.parse(e.slice(2))));
     };
-    Router.events.on("routeChangeStart", listener);
-    this.unlisten = () => Router.events.off("routeChangeStart", listener);
+    window.addEventListener("popstate", listener);
+
+    this.unlisten = () => window.removeEventListener("popstate", listener);
   }
 
   tearDown(): void {

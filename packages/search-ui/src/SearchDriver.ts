@@ -354,7 +354,7 @@ class SearchDriver {
    */
   _updateSearchResults = (
     searchParameters: RequestState,
-    { skipPushToUrl = false, replaceUrl = false } = {}
+    { skipPushToUrl = false, replaceUrl = true } = {}
   ) => {
     const {
       current,

@@ -176,7 +176,8 @@ export default class URLManager {
       as: url,
       key: Math.random().toString(36).substr(2, 8),
       options: {
-        shallow: true
+        shallow: true,
+        locale: ""
       },
       __N: true
     };

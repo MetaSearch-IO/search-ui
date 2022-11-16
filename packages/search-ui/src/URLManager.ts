@@ -215,7 +215,9 @@ export default class URLManager {
         return;
       }
       this.lastPushSearchString = "";
-      callback(paramsToState(queryString.parse(e.slice(2))));
+      callback(
+        paramsToState(queryString.parse(asPath.slice(this.path.length + 1)))
+      );
     };
     window.addEventListener("popstate", listener);
 

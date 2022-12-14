@@ -42,6 +42,6 @@ export default function setCustom(
       sortList,
       custom: newCustom
     },
-    { replaceUrl }
+    { replaceUrl, fromSetCustom: true }
   );
 }

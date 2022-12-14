@@ -165,16 +165,26 @@ export default class URLManager {
    */
   pushStateToURL(
     state: RequestState,
-    { replaceUrl = false }: { replaceUrl?: boolean } = {}
+    {
+      replaceUrl = false,
+      fromSetCustom = false
+    }: { replaceUrl?: boolean; fromSetCustom?: boolean } = {}
   ): void {
     const searchString = stateToQueryString(state as any);
     this.lastPushSearchString = searchString;
-
+    /**
+     * TODO refactor
+     */
+    let hasBackIcon = history.state.hasBackIcon;
+    if (fromSetCustom) {
+      hasBackIcon = replaceUrl ? false : true;
+    }
     const url = `${this.path}?${searchString}`;
     const historyState = {
       url,
       as: url,
       key: Math.random().toString(36).substr(2, 8),
+      hasBackIcon,
       options: {
         shallow: true,
         locale: ""

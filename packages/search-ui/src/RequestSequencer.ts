@@ -23,7 +23,7 @@ export default class RequestSequencer {
   }
 
   isOldRequest(request: RequestSequence): boolean {
-    return request < this.lastCompleted;
+    return request < this.requestSequence;
   }
 
   completed(request: RequestSequence): void {

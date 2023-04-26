@@ -111,8 +111,13 @@ export function stateToParams({
   return params;
 }
 
-function stateToQueryString(state: RequestState & { custom: Custom }): string {
+export function stateToQueryString(
+  state: RequestState & { custom: Custom }
+): string {
   return queryString.stringify(stateToParams(state));
+}
+export function queryStringToState(query: string) {
+  return paramsToState(queryString.parse(query));
 }
 
 /**

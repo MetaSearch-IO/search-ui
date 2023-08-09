@@ -478,7 +478,11 @@ class SearchDriver {
             pagingStart: start,
             pagingEnd: end,
             ...resultState,
-            wasSearched: true
+            wasSearched: true,
+            results:
+              requestState.current === 1
+                ? resultState.results
+                : [...this.state.results, ...resultState.results]
           });
 
           if (this.hasA11yNotifications) {
@@ -495,7 +499,7 @@ class SearchDriver {
               "pushStateToURL",
               this.URLManager.pushStateToURL.bind(this.URLManager),
               {
-                current,
+                // current,
                 filters,
                 resultsPerPage,
                 searchTerm,

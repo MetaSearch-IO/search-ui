@@ -13,7 +13,6 @@ export default function setCustom(
   // eslint-disable-next-line no-console
   if (this.debug) console.log("Search UI: Action", "setCustom", ...arguments);
   const {
-    current,
     filters,
     resultsPerPage,
     searchTerm,
@@ -33,7 +32,7 @@ export default function setCustom(
   });
   this.URLManager.pushStateToURL(
     {
-      current,
+      current: 1,
       filters,
       resultsPerPage,
       searchTerm,

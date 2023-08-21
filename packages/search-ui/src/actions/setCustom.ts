@@ -30,6 +30,7 @@ export default function setCustom(
   this._setState({
     custom: newCustom
   });
+
   this.URLManager.pushStateToURL(
     {
       current: 1,

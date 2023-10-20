@@ -458,7 +458,7 @@ class SearchDriver {
         filters: mergeFilters(filters, this.searchQuery.filters)
       };
 
-      return this.events.search(requestState, queryConfig).then(
+      return this.events.search(requestState, queryConfig, this.state).then(
         (resultState) => {
           if (this.searchRequestSequencer.isOldRequest(requestId)) return;
           this.searchRequestSequencer.completed(requestId);

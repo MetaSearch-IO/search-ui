@@ -11,7 +11,8 @@ import {
   SearchQuery,
   AutocompleteSearchQuery,
   ResponseState,
-  AutocompleteResponseState
+  AutocompleteResponseState,
+  SearchState
 } from "./types";
 
 function wireUpEventHandler(
@@ -60,7 +61,8 @@ class Events {
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public search: (
     query: SearchQuery,
-    queryConfig: QueryConfig
+    queryConfig: QueryConfig,
+    searchState: SearchState
   ) => Promise<ResponseState>;
   // eslint-disable-next-line  @typescript-eslint/no-explicit-any
   public autocomplete: (

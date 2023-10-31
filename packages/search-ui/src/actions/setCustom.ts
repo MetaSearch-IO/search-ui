@@ -30,18 +30,19 @@ export default function setCustom(
   this._setState({
     custom: newCustom
   });
-
-  this.URLManager.pushStateToURL(
-    {
-      current: 1,
-      filters,
-      resultsPerPage,
-      searchTerm,
-      sortDirection,
-      sortField,
-      sortList,
-      custom: newCustom
-    },
-    { replaceUrl, fromSetCustom: true }
-  );
+  if (this.URLManager && this.URLManager.pushStateToURL) {
+    this.URLManager.pushStateToURL(
+      {
+        current: 1,
+        filters,
+        resultsPerPage,
+        searchTerm,
+        sortDirection,
+        sortField,
+        sortList,
+        custom: newCustom
+      },
+      { replaceUrl, fromSetCustom: true }
+    );
+  }
 }

@@ -5,7 +5,6 @@ import {
 } from "history";
 import queryString from "./queryString";
 import { Custom, Filter, RequestState, SortOption } from "./types";
-import { Router } from "next/router";
 type QueryParams = {
   filters?: Filter[];
   current?: number;
